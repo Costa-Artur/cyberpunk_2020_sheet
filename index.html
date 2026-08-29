@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ficha Cyberpunk 2020</title>
+<meta name="theme-color" content="#0b0d10">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CP2020">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d10; --panel:#12161c; --panel2:#161b23;
+  --line:#232b36; --line2:#31404f;
+  --ink:#dbe3ec; --mute:#7d8b9b;
+  --acid:#ffd400; --cyan:#35e0f5; --hot:#ff2e63;
+  --display:'Chakra Petch','Segoe UI',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:3px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:rgba(53,224,245,.18)}
+html{-webkit-text-size-adjust:100%}
+html,body{margin:0;padding:0;overscroll-behavior-y:none}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--display);
+  font-size:15px;line-height:1.35;-webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    linear-gradient(transparent 95%, rgba(53,224,245,.05) 95%) 0 0/100% 26px,
+    radial-gradient(ellipse at 15% -10%, rgba(255,212,0,.07), transparent 55%),
+    radial-gradient(ellipse at 90% 5%, rgba(53,224,245,.06), transparent 50%);
+}
+.wrap{position:relative;z-index:1;max-width:1500px;margin:0 auto;
+  padding:14px 12px calc(80px + var(--safe-b));}
+
+/* ---------- topo ---------- */
+.masthead{border:1px solid var(--line2);background:var(--panel);overflow:hidden}
+.hazard{height:10px;background:repeating-linear-gradient(115deg,var(--acid) 0 14px,#0b0d10 14px 28px)}
+.masthead-in{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;
+  justify-content:space-between;padding:12px 14px 14px}
+h1{margin:0;font-size:clamp(22px,6vw,42px);font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;line-height:.95;color:var(--acid);
+  text-shadow:2px 0 0 rgba(255,46,99,.55),-2px 0 0 rgba(53,224,245,.45)}
+h1 small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.34em;
+  color:var(--mute);text-shadow:none;margin-top:7px;font-weight:400}
+
+.toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+button{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  background:transparent;color:var(--ink);border:1px solid var(--line2);
+  padding:9px 12px;border-radius:var(--r);cursor:pointer;min-height:40px}
+button:hover{border-color:var(--acid);color:var(--acid)}
+button.primary{border-color:var(--acid);color:#0b0d10;background:var(--acid);font-weight:600}
+button.danger:hover{border-color:var(--hot);color:var(--hot)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:1px}
+select.slot{min-width:150px;flex:1 1 150px}
+#btnMenu{display:none}
+
+/* ---------- barra de atalhos (mobile) ---------- */
+.jump{display:none}
+
+/* ---------- estrutura ---------- */
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px;align-items:start}
+@media(max-width:1120px){.cols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+
+section.box{border:1px solid var(--line);background:var(--panel);border-radius:var(--r);scroll-margin-top:60px}
+.box>h2{margin:0;font-size:11px;font-family:var(--mono);font-weight:600;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--acid);padding:12px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:8px;cursor:pointer;
+  background:linear-gradient(90deg,rgba(255,212,0,.09),transparent 70%);user-select:none}
+.box>h2 .tag{color:var(--mute);letter-spacing:.1em;font-weight:400;font-size:10px}
+.box>h2::after{content:"–";color:var(--mute);font-family:var(--mono);margin-left:auto;padding-left:8px}
+.box.closed>h2::after{content:"+"}
+.box.closed>h2{border-bottom:0}
+.box.closed>*:not(h2){display:none}
+.pad{padding:12px}
+
+label.f{display:block;margin-bottom:10px}
+label.f span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--ink);
+  font-family:var(--mono);font-size:16px;padding:9px 9px;border-radius:var(--r)}
+textarea{resize:vertical;min-height:64px;line-height:1.5}
+select{cursor:pointer}
+option{background:#12161c}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{
+  -webkit-appearance:none;margin:0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+
+/* ---------- atributos ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.stat{border:1px solid var(--line);background:var(--panel2);border-radius:var(--r);padding:7px 4px;text-align:center}
+.stat b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--cyan)}
+.stat i{display:block;font-style:normal;font-size:9.5px;color:var(--mute);margin:1px 0 4px}
+.stat input{text-align:center;font-size:22px;font-weight:600;padding:6px 2px;color:#fff}
+.derived{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-top:10px;border-radius:var(--r);overflow:hidden}
+.d{background:var(--panel2);padding:8px 9px;display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.d span{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.d output{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--acid);white-space:nowrap}
+.hint{font-family:var(--mono);font-size:11px;color:var(--mute);line-height:1.7}
+
+.hum-bar{height:10px;background:var(--panel2);border:1px solid var(--line);border-radius:2px;overflow:hidden;margin-top:8px}
+.hum-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--acid));transition:width .25s}
+
+/* ---------- perícias ---------- */
+.skgroup{border-top:1px solid var(--line)}
+.skgroup>h3{margin:0;padding:11px 12px;font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);background:rgba(53,224,245,.05);
+  display:flex;gap:8px;align-items:center;cursor:pointer;user-select:none}
+.skgroup>h3 em{font-style:normal;color:var(--mute);letter-spacing:.08em;margin-left:auto}
+.skgroup>h3::after{content:"–";color:var(--mute);width:12px;text-align:right}
+.skgroup.closed>h3::after{content:"+"}
+.skgroup.closed .sk{display:none}
+.sk{display:grid;grid-template-columns:1fr 56px 46px;gap:7px;align-items:center;
+  padding:3px 12px;border-bottom:1px dotted rgba(35,43,54,.9)}
+.sk .nm{font-size:13.5px;line-height:1.25}
+.sk .nm em{font-style:normal;color:var(--mute);font-size:11px}
+.sk input{padding:7px 2px;text-align:center}
+.sk output{font-family:var(--mono);font-size:13px;text-align:center;color:var(--acid);
+  border:1px solid var(--line);background:rgba(255,212,0,.05);padding:8px 0;border-radius:2px}
+.skhead{display:grid;grid-template-columns:1fr 56px 46px;gap:7px;padding:6px 12px;
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;color:var(--mute);text-transform:uppercase}
+.skhead span:not(:first-child){text-align:center}
+body.compact .sk.empty{display:none}
+
+/* ---------- listas dinâmicas ---------- */
+.tbl{display:flex;flex-direction:column;gap:9px}
+.trow{border:1px solid var(--line);background:var(--panel2);border-radius:var(--r);padding:9px;
+  display:grid;gap:7px;position:relative}
+.trow .field span{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mute);margin-bottom:3px}
+.trow .field input{padding:7px 8px}
+.del{border:1px solid var(--line);color:var(--mute);padding:8px 10px;font-size:12px;
+  letter-spacing:.1em;background:none;min-height:0;justify-self:end}
+.del:hover{color:var(--hot);border-color:var(--hot)}
+.addrow{margin-top:9px;width:100%}
+.grid-w{grid-template-columns:repeat(4,1fr)}
+.grid-w .wide{grid-column:1/-1}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-3 .wide{grid-column:1/-1}
+
+/* ---------- armadura ---------- */
+.arow{display:grid;grid-template-columns:82px 1fr 48px 44px;gap:7px;align-items:center;padding:4px 0}
+.arow .anm{font-size:12.5px;line-height:1.15}
+.arow .anm em{display:block;font-style:normal;font-family:var(--mono);font-size:9.5px;color:var(--cyan)}
+.arow input{padding:7px 6px}
+.arow input.c{text-align:center}
+.ahead{display:grid;grid-template-columns:82px 1fr 48px 44px;gap:7px;
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--mute);
+  text-transform:uppercase;padding-bottom:4px}
+.ahead span:nth-child(n+3){text-align:center}
+
+/* ---------- dano ---------- */
+.dmg{display:flex;flex-direction:column;gap:5px}
+.wound{display:grid;grid-template-columns:72px 1fr;gap:8px;align-items:center}
+.wound .lv{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--mute);text-transform:uppercase}
+.wound .lv em{display:block;font-style:normal;font-size:8.5px;opacity:.65}
+.boxes{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.bx{height:34px;border:1px solid var(--line2);background:var(--panel2);border-radius:2px;
+  cursor:pointer;padding:0;min-height:0}
+.bx:hover{border-color:var(--acid)}
+.bx.on{background:var(--hot);border-color:var(--hot);box-shadow:0 0 8px rgba(255,46,99,.5)}
+.wound.active .lv{color:var(--hot);font-weight:600}
+.status{margin-top:12px;border:1px solid var(--line2);background:var(--panel2);border-radius:var(--r);padding:11px}
+.status .big{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--hot)}
+.status .big.ok{color:var(--cyan)}
+.status ul{margin:8px 0 0;padding:0;list-style:none;font-family:var(--mono);font-size:12px}
+.status li{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-top:1px dotted var(--line)}
+.status li span{color:var(--mute)}
+.dmg-ctl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:10px}
+
+.foot{margin-top:20px;font-family:var(--mono);font-size:10px;color:var(--mute);
+  text-align:center;letter-spacing:.06em;line-height:1.9}
+.saved{font-family:var(--mono);font-size:10px;color:var(--mute);letter-spacing:.08em;width:100%}
+
+/* ================= MOBILE ================= */
+@media(max-width:760px){
+  .wrap{padding:0 10px calc(76px + var(--safe-b))}
+  .masthead{border-left:0;border-right:0;border-top:0;margin:0 -10px}
+  .masthead-in{padding:10px 12px 12px}
+  h1{font-size:24px;letter-spacing:.1em}
+  h1 small{font-size:9px;letter-spacing:.26em}
+
+  .toolbar{display:none;width:100%;gap:6px}
+  .toolbar.open{display:grid;grid-template-columns:1fr 1fr}
+  .toolbar.open select.slot{grid-column:1/-1}
+  .toolbar.open .saved{grid-column:1/-1;text-align:center}
+  #btnMenu{display:inline-block}
+
+  .jump{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    position:sticky;top:0;z-index:20;margin:0 -10px;padding:8px 10px;
+    background:rgba(11,13,16,.94);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);scrollbar-width:none}
+  .jump::-webkit-scrollbar{display:none}
+  .jump a{flex:0 0 auto;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--mute);text-decoration:none;
+    border:1px solid var(--line);padding:8px 11px;border-radius:20px}
+  .jump a:active{color:var(--acid);border-color:var(--acid)}
+
+  .cols{grid-template-columns:1fr;gap:10px;margin-top:10px}
+  .col{display:contents}
+  #s-ident{order:1}#s-stats{order:2}#s-dano{order:3}#s-armadura{order:4}
+  #s-armas{order:5}#s-humanidade{order:6}#s-pericias{order:7}#s-cyber{order:8}
+  #s-equip{order:9}#s-rep{order:10}#s-vida{order:11}
+
+  .row3{grid-template-columns:1fr 1fr}
+  .row3 label.f:last-child{grid-column:1/-1}
+  .derived{grid-template-columns:1fr 1fr}
+  .bx{height:38px}
+  .grid-w{grid-template-columns:repeat(3,1fr)}
+  .arow,.ahead{grid-template-columns:74px 1fr 46px 42px;gap:6px}
+}
+
+/* ================= IMPRESSÃO ================= */
+@media print{
+  @page{size:A4;margin:9mm}
+  body{background:#fff;color:#000;font-size:9.5px}
+  body::before,.toolbar,.jump,.addrow,.del,.foot,.hazard,.dmg-ctl,#btnMenu{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .cols{grid-template-columns:repeat(3,1fr);gap:5px}
+  .col{display:flex}
+  section.box,.masthead{border:1px solid #000;background:#fff;break-inside:avoid}
+  .box.closed>*{display:block!important}
+  .skgroup.closed .sk{display:grid!important}
+  .box>h2{color:#000;background:#eee;border-bottom:1px solid #000}
+  .box>h2::after,.skgroup>h3::after{content:""!important}
+  h1{color:#000;text-shadow:none;font-size:22px}
+  input,select,textarea{background:#fff;border:1px solid #999;color:#000;font-size:9.5px;padding:2px 3px}
+  .stat,.d,.status,.bx,.trow{background:#fff;border-color:#666}
+  .d output,.sk output,.skgroup>h3,.stat b,.status .big{color:#000;background:#fff}
+  .bx{height:13px}
+  .bx.on{background:#000}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="hazard"></div>
+  <div class="masthead-in">
+    <h1>Cyberpunk 2020<small>Ficha de personagem · Interlock</small></h1>
+    <button id="btnMenu">Menu</button>
+    <div class="toolbar" id="toolbar">
+      <select class="slot" id="slotSel" aria-label="Personagem salvo"></select>
+      <button id="btnNew">Novo</button>
+      <button id="btnRename">Renomear</button>
+      <button id="btnDup">Duplicar</button>
+      <button id="btnDel" class="danger">Excluir</button>
+      <button id="btnCompact">Ocultar zeradas</button>
+      <button id="btnExport">Exportar</button>
+      <button id="btnImport">Importar</button>
+      <button id="btnPrint" class="primary">Imprimir</button>
+      <span class="saved" id="savedAt"></span>
+    </div>
+  </div>
+</header>
+
+<nav class="jump" id="jump">
+  <a href="#s-ident">Identidade</a>
+  <a href="#s-stats">Atributos</a>
+  <a href="#s-dano">Dano</a>
+  <a href="#s-armadura">Armadura</a>
+  <a href="#s-armas">Armas</a>
+  <a href="#s-humanidade">Humanidade</a>
+  <a href="#s-pericias">Perícias</a>
+  <a href="#s-cyber">Cyberware</a>
+  <a href="#s-equip">Equipamento</a>
+  <a href="#s-rep">Recursos</a>
+  <a href="#s-vida">Caminho de vida</a>
+</nav>
+
+<div class="cols">
+
+  <div class="col">
+
+    <section class="box" id="s-ident">
+      <h2>Identidade <span class="tag">quem você é</span></h2>
+      <div class="pad">
+        <label class="f"><span>Codinome (handle)</span><input data-k="handle"></label>
+        <div class="row2">
+          <label class="f"><span>Nome real</span><input data-k="nome"></label>
+          <label class="f"><span>Idade</span><input data-k="idade" inputmode="numeric"></label>
+        </div>
+        <label class="f"><span>Papel</span>
+          <select data-k="papel" id="papel">
+            <option value="">selecione</option>
+            <option>Rockerboy</option><option>Solo</option><option>Netrunner</option>
+            <option>Techie</option><option>Medtech</option><option>Media</option>
+            <option>Cop</option><option>Corporativo</option><option>Fixer</option><option>Nomad</option>
+          </select></label>
+        <label class="f"><span>Habilidade especial</span><input data-k="especialNome" id="especialNome"></label>
+        <div class="row3">
+          <label class="f"><span>Etnia</span><input data-k="etnia"></label>
+          <label class="f"><span>Idioma nativo</span><input data-k="idioma"></label>
+          <label class="f"><span>Jogador</span><input data-k="jogador"></label>
+        </div>
+        <label class="f" style="margin-bottom:0"><span>Aparência e estilo</span><textarea data-k="aparencia" rows="2"></textarea></label>
+      </div>
+    </section>
+
+    <section class="box" id="s-stats">
+      <h2>Atributos <span class="tag">2 a 10</span></h2>
+      <div class="pad">
+        <div class="stats" id="stats"></div>
+        <div class="derived">
+          <div class="d"><span>Correr</span><output id="oRun">0</output></div>
+          <div class="d"><span>Saltar</span><output id="oLeap">0</output></div>
+          <div class="d"><span>Levantar</span><output id="oLift">0</output></div>
+          <div class="d"><span>Carregar</span><output id="oCarry">0</output></div>
+          <div class="d"><span>Tipo físico</span><output id="oType">·</output></div>
+          <div class="d"><span>MDC</span><output id="oBtm">0</output></div>
+        </div>
+        <p class="hint" style="margin-bottom:0">Correr = MOV x3 m por turno · Saltar = Correr/4 · Levantar = COR x40 kg · Carregar = COR x10 kg. O MDC é subtraído de todo dano que passar pela armadura.</p>
+      </div>
+    </section>
+
+    <section class="box" id="s-humanidade">
+      <h2>Humanidade <span class="tag">EMP x10</span></h2>
+      <div class="pad">
+        <div class="row3">
+          <label class="f"><span>Máximo</span><input id="humMax" readonly tabindex="-1"></label>
+          <label class="f"><span>Perda</span><input type="number" inputmode="numeric" data-k="humPerda" id="humPerda" min="0" step="1"></label>
+          <label class="f"><span>Atual</span><input id="humAtual" readonly tabindex="-1"></label>
+        </div>
+        <div class="hum-bar"><div class="hum-fill" id="humFill" style="width:100%"></div></div>
+        <p class="hint" id="humNota" style="margin-bottom:0">Empatia efetiva = humanidade atual dividida por 10.</p>
+      </div>
+    </section>
+
+    <section class="box" id="s-rep">
+      <h2>Reputação e recursos</h2>
+      <div class="pad">
+        <div class="row2">
+          <label class="f"><span>Reputação</span><input type="number" inputmode="numeric" data-k="rep"></label>
+          <label class="f"><span>Pontos de melhoria</span><input type="number" inputmode="numeric" data-k="ip"></label>
+        </div>
+        <label class="f"><span>Conhecido por</span><textarea data-k="repPor" rows="2"></textarea></label>
+        <div class="row2">
+          <label class="f"><span>Dinheiro (eb)</span><input data-k="dinheiro" inputmode="numeric"></label>
+          <label class="f"><span>Custo de vida</span><input data-k="custoVida" inputmode="numeric"></label>
+        </div>
+        <label class="f" style="margin-bottom:0"><span>Moradia e transporte</span><textarea data-k="moradia" rows="2"></textarea></label>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="col">
+    <section class="box" id="s-pericias">
+      <h2>Perícias <span class="tag">nível + atributo</span></h2>
+      <div class="skhead"><span>Perícia</span><span>Nv</span><span>Tot</span></div>
+      <div id="skills"></div>
+      <div class="pad">
+        <div class="skhead" style="padding:0 0 4px"><span>Perícias adicionais</span><span></span><span></span></div>
+        <div id="extraSkills"></div>
+        <button class="addrow" id="addSkill">+ adicionar perícia</button>
+        <p class="hint" style="margin-bottom:0">Use para Idioma, Especialista, Pilotagem e outras que se repetem.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="col">
+
+    <section class="box" id="s-dano">
+      <h2>Ferimentos <span class="tag">40 caixas</span></h2>
+      <div class="pad">
+        <div class="dmg" id="dmg"></div>
+        <div class="dmg-ctl">
+          <button id="dmgMinus">− 1 dano</button>
+          <button id="dmgPlus">+ 1 dano</button>
+          <button id="dmgZero">Zerar</button>
+        </div>
+        <div class="status">
+          <div class="big ok" id="stLevel">Ileso</div>
+          <ul>
+            <li><span>Atordoamento</span><b id="stStun">não exigido</b></li>
+            <li><span>Morte</span><b id="stDeath">não exigido</b></li>
+            <li><span>Penalidade REF</span><b id="stRef">nenhuma</b></li>
+            <li><span>Movimento</span><b id="stMa">normal</b></li>
+          </ul>
+        </div>
+        <p class="hint" style="margin-bottom:0">Toque nas caixas para marcar o dano. Grave ou pior exige teste de atordoamento por turno; Mortal ou pior também exige teste de morte a cada turno.</p>
+      </div>
+    </section>
+
+    <section class="box" id="s-armadura">
+      <h2>Armadura <span class="tag">SP por local</span></h2>
+      <div class="pad">
+        <div class="ahead"><span>Local</span><span>Peça</span><span>SP</span><span>EV</span></div>
+        <div id="armor"></div>
+        <p class="hint" style="margin-bottom:0">SP é subtraído do dano antes do MDC. Cada ponto de EV reduz 1 de REF, salvo em armaduras estruturadas.</p>
+      </div>
+    </section>
+
+    <section class="box" id="s-armas">
+      <h2>Armas</h2>
+      <div class="pad">
+        <div class="tbl" id="weapons"></div>
+        <button class="addrow" id="addWeapon">+ adicionar arma</button>
+      </div>
+    </section>
+
+    <section class="box" id="s-cyber">
+      <h2>Cyberware <span class="tag">custo de humanidade</span></h2>
+      <div class="pad">
+        <div class="tbl" id="cyber"></div>
+        <button class="addrow" id="addCyber">+ adicionar implante</button>
+      </div>
+    </section>
+
+    <section class="box" id="s-equip">
+      <h2>Equipamento</h2>
+      <div class="pad">
+        <div class="tbl" id="gear"></div>
+        <button class="addrow" id="addGear">+ adicionar item</button>
+      </div>
+    </section>
+
+    <section class="box" id="s-vida">
+      <h2>Caminho de vida</h2>
+      <div class="pad">
+        <label class="f"><span>Origem e família</span><textarea data-k="lpFamilia" rows="2"></textarea></label>
+        <label class="f"><span>Motivações, valores e traços</span><textarea data-k="lpMotivacao" rows="2"></textarea></label>
+        <label class="f"><span>Eventos marcantes</span><textarea data-k="lpEventos" rows="3"></textarea></label>
+        <label class="f"><span>Aliados e contatos</span><textarea data-k="lpAliados" rows="3"></textarea></label>
+        <label class="f"><span>Inimigos</span><textarea data-k="lpInimigos" rows="3"></textarea></label>
+        <label class="f" style="margin-bottom:0"><span>Anotações</span><textarea data-k="notas" rows="5"></textarea></label>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<p class="foot">Ficha não oficial para uso em mesa. Cyberpunk 2020 é propriedade da R. Talsorian Games.<br>
+Os dados ficam apenas neste aparelho. Use Exportar para guardar uma cópia.</p>
+</div>
+
+<script>
+/* ============ dados ============ */
+const STATS=[
+ ['INT','Inteligência'],['REF','Reflexos'],['TEC','Técnica'],
+ ['COOL','Frieza'],['ATR','Atratividade'],['SORTE','Sorte'],
+ ['MOV','Movimento'],['COR','Corpo'],['EMP','Empatia']
+];
+const ESPECIAL={
+ 'Rockerboy':'Liderança carismática','Solo':'Sentido de combate','Netrunner':'Interface',
+ 'Techie':'Improvisar','Medtech':'Medicina','Media':'Credibilidade','Cop':'Autoridade',
+ 'Corporativo':'Recursos','Fixer':'Negociata','Nomad':'Família'
+};
+const SKILLS=[
+ ['ESPECIAL','Habilidade especial',[['Habilidade especial do papel','']]],
+ ['ATR','Atratividade',[['Cuidados pessoais',''],['Estilo e vestuário','']]],
+ ['COR','Corpo',[['Resistência',''],['Proeza de força',''],['Natação','']]],
+ ['COOL','Frieza',[['Interrogatório',''],['Intimidação',''],['Oratória',''],
+   ['Resistir a tortura e drogas',''],['Conhecimento das ruas','streetwise']]],
+ ['EMP','Empatia',[['Percepção humana',''],['Entrevista',''],['Liderança',''],['Sedução',''],
+   ['Etiqueta social',''],['Persuasão e lábia',''],['Apresentar-se','perform']]],
+ ['INT','Inteligência',[['Contabilidade',''],['Antropologia',''],['Percepção e atenção','awareness'],
+   ['Biologia',''],['Botânica',''],['Química',''],['Composição',''],['Diagnosticar doença',''],
+   ['Educação e conhecimento geral',''],['Especialista',''],['Jogatina',''],['Geologia',''],
+   ['Esconder-se e evadir',''],['História',''],['Idioma',''],['Pesquisa em biblioteca',''],
+   ['Matemática',''],['Física',''],['Programação',''],['Seguir e rastrear',''],
+   ['Mercado de ações',''],['Conhecimento de sistemas',''],['Ensinar',''],
+   ['Sobrevivência na natureza',''],['Zoologia','']]],
+ ['REF','Reflexos',[['Arco e flecha',''],['Atletismo',''],['Briga',''],['Dança',''],
+   ['Esquiva e fuga',''],['Direção',''],['Esgrima',''],['Pistola',''],['Armas pesadas',''],
+   ['Artes marciais',''],['Armas brancas',''],['Motocicleta',''],['Operar máquina pesada',''],
+   ['Pilotagem: giro',''],['Pilotagem: asa fixa',''],['Pilotagem: dirigível',''],
+   ['Pilotagem: empuxo vetorial',''],['Rifle',''],['Furtividade',''],['Submetralhadora','']]],
+ ['TEC','Técnica',[['Aerotecnologia',''],['Tecnologia AV',''],['Tecnologia básica',''],
+   ['Operação de criotanque',''],['Projeto de cyberdeck',''],['Cybertecnologia',''],
+   ['Demolição',''],['Disfarce',''],['Eletrônica',''],['Segurança eletrônica',''],
+   ['Primeiros socorros',''],['Falsificação',''],['Tecnologia de giro',''],['Pintura e desenho',''],
+   ['Fotografia e filmagem',''],['Farmacêutica',''],['Arrombar fechadura',''],
+   ['Batedor de carteira',''],['Tocar instrumento',''],['Armeiro','']]]
+];
+const WOUNDS=[
+ {n:'Leve',     stun:0, death:null, ref:0,  ma:'normal'},
+ {n:'Grave',    stun:-1,death:null, ref:-2, ma:'normal'},
+ {n:'Crítico',  stun:-2,death:null, ref:-4, ma:'metade'},
+ {n:'Mortal 0', stun:-3,death:0,    ref:-6, ma:'um terço'},
+ {n:'Mortal 1', stun:-4,death:1,    ref:-6, ma:'um terço'},
+ {n:'Mortal 2', stun:-5,death:2,    ref:-6, ma:'um terço'},
+ {n:'Mortal 3', stun:-6,death:3,    ref:-6, ma:'um terço'},
+ {n:'Mortal 4', stun:-7,death:4,    ref:-6, ma:'um terço'},
+ {n:'Mortal 5', stun:-8,death:5,    ref:-6, ma:'um terço'},
+ {n:'Mortal 6', stun:-9,death:6,    ref:-6, ma:'um terço'}
+];
+const LOCS=[['Cabeça','1'],['Torso','2-4'],['Braço D','5'],['Braço E','6'],['Perna D','7-8'],['Perna E','9-10']];
+const KEY='cp2020-fichas';
+let db={chars:[],activeId:null}, cur=null, saveTimer=null;
+
+function el(t,a={},...kids){const e=document.createElement(t);
+  for(const k in a){if(k==='class')e.className=a[k];else if(k.startsWith('on'))e.addEventListener(k.slice(2),a[k]);else e.setAttribute(k,a[k]);}
+  kids.flat().forEach(k=>e.appendChild(typeof k==='string'?document.createTextNode(k):k));return e;}
+
+/* ============ montagem ============ */
+const statsEl=document.getElementById('stats');
+STATS.forEach(([ab,nm])=>{
+  const inp=el('input',{type:'number',inputmode:'numeric',min:'1',max:'14',step:'1','data-k':'st_'+ab});
+  statsEl.appendChild(el('div',{class:'stat'},el('b',{},ab),el('i',{},nm),inp));
+});
+
+const skillsEl=document.getElementById('skills');
+SKILLS.forEach(([stat,nome,list])=>{
+  const h=el('h3',{},nome,el('em',{},stat));
+  const g=el('div',{class:'skgroup'},h);
+  h.addEventListener('click',()=>g.classList.toggle('closed'));
+  list.forEach(([sn,alt])=>{
+    const id='sk_'+stat+'_'+sn.replace(/[^a-zA-Z]/g,'').slice(0,16);
+    const lvl=el('input',{type:'number',inputmode:'numeric',min:'0',max:'10',step:'1','data-k':id});
+    const out=el('output',{},'0');
+    const nameNode=alt?el('div',{class:'nm'},sn+' ',el('em',{},'('+alt+')')):el('div',{class:'nm'},sn);
+    const row=el('div',{class:'sk empty'},nameNode,lvl,out);
+    row.dataset.stat=stat; row._out=out; row._lvl=lvl;
+    g.appendChild(row);
+  });
+  skillsEl.appendChild(g);
+});
+
+const armorEl=document.getElementById('armor');
+LOCS.forEach(([nm,d10],i)=>{
+  armorEl.appendChild(el('div',{class:'arow'},
+    el('div',{class:'anm'},nm,el('em',{},'d10 '+d10)),
+    el('input',{'data-k':'arm_peca'+i}),
+    el('input',{class:'c',type:'number',inputmode:'numeric','data-k':'arm_sp'+i}),
+    el('input',{class:'c',type:'number',inputmode:'numeric','data-k':'arm_ev'+i})
+  ));
+});
+
+const dmgEl=document.getElementById('dmg'), boxes=[];
+WOUNDS.forEach((w,li)=>{
+  const bwrap=el('div',{class:'boxes'});
+  for(let i=0;i<4;i++){
+    const n=li*4+i+1;
+    const b=el('button',{class:'bx',type:'button','aria-label':'Dano '+n,onclick:()=>toggleDmg(n)});
+    boxes.push(b); bwrap.appendChild(b);
+  }
+  const mods='atd '+w.stun+(w.death===null?'':' · mrt '+(w.death?'-'+w.death:'0'));
+  dmgEl.appendChild(el('div',{class:'wound','data-lv':li},
+    el('div',{class:'lv'},w.n,el('em',{},mods)), bwrap));
+});
+function setDmg(n){cur.data.dano=Math.max(0,Math.min(40,n));renderDmg();queueSave();}
+function toggleDmg(n){setDmg((cur.data.dano||0)===n?n-1:n);}
+document.getElementById('dmgPlus').onclick=()=>setDmg((cur.data.dano||0)+1);
+document.getElementById('dmgMinus').onclick=()=>setDmg((cur.data.dano||0)-1);
+document.getElementById('dmgZero').onclick=()=>setDmg(0);
+
+function renderDmg(){
+  const d=cur.data.dano||0;
+  boxes.forEach((b,i)=>b.classList.toggle('on',i<d));
+  const lvl=d===0?-1:Math.min(9,Math.ceil(d/4)-1);
+  document.querySelectorAll('.wound').forEach((w,i)=>w.classList.toggle('active',i===lvl));
+  const body=num('st_COR'), L=document.getElementById('stLevel');
+  const set=(id,v)=>document.getElementById(id).textContent=v;
+  if(lvl<0){L.textContent='Ileso';L.className='big ok';
+    set('stStun','não exigido');set('stDeath','não exigido');set('stRef','nenhuma');set('stMa','normal');return;}
+  const w=WOUNDS[lvl];
+  L.textContent=w.n+(d>=40?' · morrendo':''); L.className='big';
+  set('stStun', lvl===0?'não exigido':'d10 ≤ '+(body+w.stun));
+  set('stDeath', w.death===null?'não exigido':'d10 ≤ '+(body-w.death));
+  set('stRef', w.ref?w.ref+' em REF':'nenhuma');
+  set('stMa', w.ma);
+}
+
+/* ============ listas dinâmicas ============ */
+const TABLES={
+  weapons:{grid:'grid-w',cols:[['nome','Arma',1],['wa','WA'],['oc','Ocultação'],['dano','Dano/mun'],
+    ['tiros','Tiros'],['cdt','CDT'],['conf','Confiab.'],['alc','Alcance']]},
+  cyber:{grid:'grid-3',cols:[['nome','Implante',1],['local','Local'],['hum','Humanidade'],['efeito','Efeito',1]]},
+  gear:{grid:'grid-3',cols:[['nome','Item',1],['qtd','Qtd'],['notas','Notas',1]]}
+};
+function renderTable(name){
+  const box=document.getElementById(name); box.innerHTML='';
+  (cur.data[name]||[]).forEach((row,idx)=>{
+    const tr=el('div',{class:'trow '+TABLES[name].grid});
+    TABLES[name].cols.forEach(([k,label,wide])=>{
+      const inp=el('input',{value:row[k]||''});
+      inp.addEventListener('input',()=>{row[k]=inp.value;queueSave();});
+      tr.appendChild(el('label',{class:'field'+(wide?' wide':'')},el('span',{},label),inp));
+    });
+    tr.appendChild(el('button',{class:'del',type:'button',onclick:()=>{
+      cur.data[name].splice(idx,1);renderTable(name);queueSave();}},'remover'));
+    box.appendChild(tr);
+  });
+}
+function addRow(n){(cur.data[n]=cur.data[n]||[]).push({});renderTable(n);queueSave();}
+document.getElementById('addWeapon').onclick=()=>addRow('weapons');
+document.getElementById('addCyber').onclick=()=>addRow('cyber');
+document.getElementById('addGear').onclick=()=>addRow('gear');
+
+function renderExtra(){
+  const box=document.getElementById('extraSkills'); box.innerHTML='';
+  (cur.data.extras||[]).forEach((row,idx)=>{
+    const nm=el('input',{value:row.nome||'',placeholder:'nome da perícia'});
+    const st=el('select');
+    STATS.forEach(([ab])=>st.appendChild(el('option',{value:ab},ab)));
+    st.value=row.stat||'INT';
+    const lv=el('input',{type:'number',inputmode:'numeric',min:'0',max:'10',value:row.nv??'',style:'text-align:center'});
+    const out=el('output',{},'0');
+    const upd=()=>out.textContent=num('st_'+st.value)+(parseInt(lv.value)||0);
+    nm.addEventListener('input',()=>{row.nome=nm.value;queueSave();});
+    st.addEventListener('change',()=>{row.stat=st.value;upd();queueSave();});
+    lv.addEventListener('input',()=>{row.nv=lv.value;upd();queueSave();});
+    upd();
+    box.appendChild(el('div',{class:'sk',style:'grid-template-columns:1fr 74px 52px 46px;padding:4px 0'},
+      nm,st,lv,out));
+    box.appendChild(el('div',{style:'text-align:right;margin:-2px 0 8px'},
+      el('button',{class:'del',type:'button',onclick:()=>{cur.data.extras.splice(idx,1);renderExtra();queueSave();}},'remover')));
+  });
+}
+document.getElementById('addSkill').onclick=()=>{(cur.data.extras=cur.data.extras||[]).push({stat:'INT'});renderExtra();queueSave();};
+
+/* ============ cálculos ============ */
+function num(k){const e=document.querySelector('[data-k="'+k+'"]');return parseInt(e&&e.value)||0;}
+function btm(b){if(b<=2)return[0,'Muito fraco'];if(b<=4)return[-1,'Fraco'];if(b<=7)return[-2,'Médio'];
+  if(b<=9)return[-3,'Forte'];if(b===10)return[-4,'Muito forte'];return[-5,'Sobre-humano'];}
+function recalc(){
+  const mov=num('st_MOV'), cor=num('st_COR'), emp=num('st_EMP'), run=mov*3;
+  document.getElementById('oRun').textContent=run+' m';
+  document.getElementById('oLeap').textContent=Math.floor(run/4)+' m';
+  document.getElementById('oLift').textContent=(cor*40)+' kg';
+  document.getElementById('oCarry').textContent=(cor*10)+' kg';
+  const [bt,tp]=btm(cor);
+  document.getElementById('oBtm').textContent=bt;
+  document.getElementById('oType').textContent=tp;
+  const max=emp*10, perda=Math.max(0,num('humPerda')), atual=Math.max(0,max-perda);
+  document.getElementById('humMax').value=max;
+  document.getElementById('humAtual').value=atual;
+  document.getElementById('humFill').style.width=(max?Math.min(100,atual/max*100):0)+'%';
+  document.getElementById('humNota').textContent = atual<=0&&max>0
+    ? 'Humanidade zerada: cyberpsicose. O personagem sai do controle do jogador.'
+    : 'Empatia efetiva: '+Math.floor(atual/10)+'. Cada implante reduz a humanidade de forma permanente.';
+  document.querySelectorAll('.sk[data-stat]').forEach(row=>{
+    const base=row.dataset.stat==='ESPECIAL'?0:num('st_'+row.dataset.stat);
+    const nv=parseInt(row._lvl.value)||0;
+    row._out.textContent=base+nv;
+    row.classList.toggle('empty',!nv);
+  });
+  document.querySelectorAll('#extraSkills .sk').forEach(r=>{
+    const s=r.querySelector('select'),l=r.querySelector('input[type=number]'),o=r.querySelector('output');
+    if(s&&o)o.textContent=num('st_'+s.value)+(parseInt(l.value)||0);
+  });
+  renderDmg();
+}
+
+/* ============ persistência ============
+   Tudo fica no localStorage deste navegador, na chave "cp2020-fichas".
+   Nada é enviado para servidor nenhum. Se o localStorage estiver bloqueado,
+   cai para o armazenamento do ambiente que estiver hospedando a página. */
+const Store={
+  local:(()=>{try{const k='__cp2020_test';localStorage.setItem(k,'1');localStorage.removeItem(k);return true;}
+             catch(e){return false;}})(),
+  async get(){
+    if(this.local)return localStorage.getItem(KEY);
+    try{const r=await window.storage.get(KEY);return r&&r.value;}catch(e){return null;}
+  },
+  async set(v){
+    if(this.local){localStorage.setItem(KEY,v);return;}
+    await window.storage.set(KEY,v);
+  },
+  setSync(v){try{if(this.local)localStorage.setItem(KEY,v);else window.storage.set(KEY,v);}catch(e){}}
+};
+
+function blank(name){return{id:'c'+Date.now()+Math.floor(Math.random()*999),
+  nome:name||'Novo personagem',data:{dano:0,weapons:[],cyber:[],gear:[],extras:[]}};}
+function fill(c){c.data=Object.assign({dano:0,weapons:[],cyber:[],gear:[],extras:[]},c.data);return c;}
+function collect(){
+  document.querySelectorAll('[data-k]').forEach(e=>{cur.data[e.dataset.k]=e.value;});
+  cur.nome=(cur.data.handle||'').trim()||cur.data.nome||'Sem nome';
+}
+function apply(){
+  document.querySelectorAll('[data-k]').forEach(e=>{e.value=cur.data[e.dataset.k]??'';});
+  renderTable('weapons');renderTable('cyber');renderTable('gear');renderExtra();recalc();
+}
+async function load(){
+  try{const raw=await Store.get(); if(raw) db=JSON.parse(raw);}catch(e){}
+  if(!db.chars||!db.chars.length){db={chars:[blank()],activeId:null};db.activeId=db.chars[0].id;}
+  cur=fill(db.chars.find(c=>c.id===db.activeId)||db.chars[0]); db.activeId=cur.id;
+  renderSlots(); apply();
+}
+async function save(){
+  if(!cur)return;
+  collect(); cur.updated=Date.now();
+  try{
+    await Store.set(JSON.stringify(db));
+    document.getElementById('savedAt').textContent='salvo '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){document.getElementById('savedAt').textContent='não foi possível salvar neste navegador';}
+  renderSlots();
+}
+function queueSave(){clearTimeout(saveTimer);saveTimer=setTimeout(save,500);}
+function renderSlots(){
+  const s=document.getElementById('slotSel'); s.innerHTML='';
+  db.chars.forEach(c=>s.appendChild(el('option',{value:c.id},c.nome||'Sem nome')));
+  s.value=db.activeId;
+}
+document.getElementById('slotSel').addEventListener('change',async e=>{
+  await save(); db.activeId=e.target.value; cur=fill(db.chars.find(c=>c.id===db.activeId));
+  apply(); save(); window.scrollTo({top:0});
+});
+
+/* ============ ações ============ */
+document.getElementById('btnNew').onclick=async()=>{await save();const c=blank();db.chars.push(c);db.activeId=c.id;cur=c;apply();save();};
+document.getElementById('btnDup').onclick=async()=>{await save();
+  const c=JSON.parse(JSON.stringify(cur));c.id='c'+Date.now();c.nome=cur.nome+' (cópia)';
+  db.chars.push(c);db.activeId=c.id;cur=c;apply();save();};
+document.getElementById('btnRename').onclick=()=>{
+  const n=prompt('Nome desta ficha:',cur.nome); if(n===null)return;
+  document.querySelector('[data-k="handle"]').value=n; save();};
+document.getElementById('btnDel').onclick=()=>{
+  if(db.chars.length<2){alert('Esta é a única ficha salva.');return;}
+  if(!confirm('Excluir "'+cur.nome+'" definitivamente?'))return;
+  db.chars=db.chars.filter(c=>c.id!==cur.id); cur=fill(db.chars[0]); db.activeId=cur.id; apply(); save();};
+document.getElementById('btnCompact').onclick=e=>{
+  document.body.classList.toggle('compact');
+  e.target.textContent=document.body.classList.contains('compact')?'Mostrar todas':'Ocultar zeradas';};
+document.getElementById('btnPrint').onclick=()=>window.print();
+document.getElementById('btnExport').onclick=()=>{
+  collect();
+  const blob=new Blob([JSON.stringify(cur,null,2)],{type:'application/json'});
+  const a=el('a',{href:URL.createObjectURL(blob),
+    download:(cur.nome||'ficha').replace(/\s+/g,'-').toLowerCase()+'.cp2020.json'});
+  document.body.appendChild(a);a.click();a.remove();};
+document.getElementById('btnImport').onclick=()=>{
+  const i=el('input',{type:'file',accept:'.json,application/json'});
+  i.onchange=()=>{const f=i.files[0];if(!f)return;const r=new FileReader();
+    r.onload=()=>{try{const c=fill(JSON.parse(r.result));c.id='c'+Date.now();
+      db.chars.push(c);db.activeId=c.id;cur=c;apply();save();}
+      catch(err){alert('Arquivo inválido.');}};
+    r.readAsText(f);};
+  i.click();};
+document.getElementById('btnMenu').onclick=()=>document.getElementById('toolbar').classList.toggle('open');
+document.getElementById('papel').addEventListener('change',e=>{
+  const alvo=document.getElementById('especialNome');
+  if(!alvo.value||Object.values(ESPECIAL).includes(alvo.value)) alvo.value=ESPECIAL[e.target.value]||'';
+  queueSave();});
+document.querySelectorAll('.box>h2').forEach(h=>h.addEventListener('click',e=>{
+  if(e.target.closest('input,select,button'))return;
+  h.parentElement.classList.toggle('closed');}));
+document.querySelectorAll('.jump a').forEach(a=>a.addEventListener('click',()=>{
+  const s=document.querySelector(a.getAttribute('href'));
+  if(s) s.classList.remove('closed');}));
+
+document.addEventListener('input',e=>{
+  if(e.target.matches('input,select,textarea')){recalc();queueSave();}});
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='hidden'&&cur){collect();Store.setSync(JSON.stringify(db));}});
+window.addEventListener('pagehide',()=>{if(cur){collect();Store.setSync(JSON.stringify(db));}});
+
+load();
+
+/* modo offline: só registra quando servido por http(s), como no GitHub Pages */
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
