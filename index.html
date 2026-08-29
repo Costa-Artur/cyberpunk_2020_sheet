@@ -217,12 +217,38 @@ body.compact .sk.empty{display:none}
   #s-armas{order:5}#s-humanidade{order:6}#s-pericias{order:7}#s-cyber{order:8}
   #s-equip{order:9}#s-rep{order:10}#s-vida{order:11}
 
-  .row3{grid-template-columns:1fr 1fr}
-  .row3 label.f:last-child{grid-column:1/-1}
-  .derived{grid-template-columns:1fr 1fr}
-  .bx{height:38px}
-  .grid-w{grid-template-columns:repeat(3,1fr)}
-  .arow,.ahead{grid-template-columns:74px 1fr 46px 42px;gap:6px}
+  /* uma coluna por vez: campos empilhados em vez de espremidos lado a lado */
+  body{font-size:16px}
+  .row2,.row3{grid-template-columns:1fr;gap:10px}
+  .row3 label.f:last-child{grid-column:auto}
+  .derived{grid-template-columns:1fr}
+  .grid-w,.grid-3{grid-template-columns:1fr;gap:10px}
+  .grid-w .wide,.grid-3 .wide{grid-column:auto}
+  .bx{height:40px}
+
+  /* textos maiores para leitura no celular */
+  label.f span{font-size:11.5px;margin-bottom:6px}
+  input,select,textarea{font-size:16.5px;padding:11px 10px}
+  .hint{font-size:12.5px;line-height:1.6}
+  .box>h2{font-size:12.5px;padding:14px}
+  .pad{padding:14px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat b{font-size:12px}
+  .stat i{font-size:10.5px}
+  .stat input{font-size:24px}
+  .d span{font-size:10.5px}
+  .d output{font-size:17px}
+  .sk{grid-template-columns:1fr 62px 50px}
+  .sk .nm{font-size:15px}
+  .sk .nm em{font-size:12px}
+  .sk output{font-size:14px}
+  .skhead{font-size:9px}
+  .status .big{font-size:22px}
+  .status ul{font-size:13px}
+  .arow,.ahead{grid-template-columns:70px 1fr 50px 46px;gap:6px}
+  .arow .anm{font-size:13.5px}
+  .arow .anm em{font-size:10.5px}
+  .arow input,.arow select{font-size:15px}
 }
 
 /* ================= IMPRESSÃO ================= */
